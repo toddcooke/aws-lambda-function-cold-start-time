@@ -32,3 +32,8 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.SECRET_KEY }}
           aws configure set default.region us-east-2
           bash get_function_duration.sh aws-lambda-function-cold-start-time-dev-node_handler
+
+
+      - uses: EndBug/add-and-commit@v7
+        with:
+         message: "Add lambda durations"
