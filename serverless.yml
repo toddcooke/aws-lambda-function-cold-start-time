@@ -17,4 +17,9 @@ functions:
     handler: node_handler.js
     events:
       - schedule: cron(0 0 * * ? *)
+  ruby_handler:
+    runtime: ruby2.5
+    handler: ruby_handler.rb
+    events:
+      - schedule: cron(0 0 * * ? *)
 
