@@ -1,0 +1,17 @@
+[
+  {
+    "Timestamp": "2021-10-12T21:00:00+00:00",
+    "Average": 147.69222222222223,
+    "Unit": "Milliseconds"
+  },
+  {
+    "Timestamp": "2021-10-12T23:00:00+00:00",
+    "Average": 143.29611111111112,
+    "Unit": "Milliseconds"
+  },
+  {
+    "Timestamp": "2021-10-12T22:00:00+00:00",
+    "Average": 145.30027777777778,
+    "Unit": "Milliseconds"
+  }
+]
