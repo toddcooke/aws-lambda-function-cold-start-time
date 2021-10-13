@@ -33,7 +33,9 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.ACCESS_KEY }}
           aws configure set aws_secret_access_key ${{ secrets.SECRET_KEY }}
           aws configure set default.region us-east-2
+          bash get_function_duration.sh aws-lambda-function-cold-start-time-dev-python_handler
           bash get_function_duration.sh aws-lambda-function-cold-start-time-dev-node_handler
+          bash get_function_duration.sh aws-lambda-function-cold-start-time-dev-ruby_handler
 
       - uses: EndBug/add-and-commit@v7
         with:
