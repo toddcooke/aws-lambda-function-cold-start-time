@@ -3,52 +3,77 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"
         integrity="sha512-b3xr4frvDIeyC3gqR1/iOi6T+m3pLlQyXNuvn5FiRrrKiMUJK3du2QqZbCywH6JxS5EOfW0DY0M6WwdXFbCBLQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<canvas id="myChart" width="400" height="400"></canvas>
+<script type="module" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script>
+<canvas id="myChart"></canvas>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    new Chart(document.getElementById("myChart"), {
-        type: 'line',
-        data: {
-            labels: ["Java"],// labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
-            datasets: [{
-                data: [1.83],
-                // data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
-                label: "Java",
-                borderColor: "#3e95cd",
-                fill: false
+    import {en} from 'date-fns/locale';
+
+    async function script() {
+
+        const python_duration = await fetch('https://raw.githubusercontent.com/toddcooke/aws-lambda-function-cold-start-time/main/data/aws-lambda-function-cold-start-time-dev-python_handler.json')
+            .then(response => response.json())
+        const node_duration = await fetch('https://raw.githubusercontent.com/toddcooke/aws-lambda-function-cold-start-time/main/data/aws-lambda-function-cold-start-time-dev-node_handler.json')
+            .then(response => response.json())
+        // const ruby_duration = await fetch('/data/aws-lambda-function-cold-start-time-dev-ruby_handler.json')
+        //     .then(response => response.json())
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(document.getElementById("myChart"), {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        data: python_duration.map(it => {
+                            return {
+                                x: it.Timestamp,
+                                y: it.Average
+                            }
+                        }),
+                        label: "Python",
+                        borderColor: "#3e95cd",
+                        fill: false
+                    },
+                    {
+                        data: node_duration.map(it => {
+                            return {
+                                x: it.Timestamp,
+                                y: it.Average
+                            }
+                        }),
+                        label: "NodeJS`",
+                        borderColor: "#3cba9f",
+                        fill: false
+                    },
+                ]
             },
-                //     {
-                //     data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
-                //     label: "Asia",
-                //     borderColor: "#8e5ea2",
-                //     fill: false
-                // }, {
-                //     data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
-                //     label: "Europe",
-                //     borderColor: "#3cba9f",
-                //     fill: false
-                // }, {
-                //     data: [40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
-                //     label: "Latin America",
-                //     borderColor: "#e8c3b9",
-                //     fill: false
-                // }, {
-                //     data: [6, 3, 2, 2, 7, 26, 82, 172, 312, 433],
-                //     label: "North America",
-                //     borderColor: "#c45850",
-                //     fill: false
-                // }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'World population per region (in millions)'
+            options: {
+                title: {
+                    display: true,
+                    text: 'AWS Lambda function cold start time'
+                },
+                scales: {
+                    adapters: {
+                        date: {
+                            locale: en
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Time (Milliseconds)"
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }
+                }
             }
-        }
-    });
+        });
+    }
 
-
+    script()
 </script>
 </body>
 
