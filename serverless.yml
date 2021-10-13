@@ -1,0 +1,20 @@
+service: aws-lambda-function-cold-start-time
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  region: us-east-2
+  lambdaHashingVersion: 20201221
+
+functions:
+  python_handler:
+    runtime: python3.8
+    handler: python_handler.run
+    events:
+      - schedule: cron(0 0 * * ? *)
+  node_handler:
+    runtime: nodejs12.x
+    handler: node_handler.js
+    events:
+      - schedule: cron(0 0 * * ? *)
+
