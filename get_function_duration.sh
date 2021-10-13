@@ -5,13 +5,13 @@ set -e
 # bash get_function_duration <FUNCTION_NAME>
 
 TODAY=$(date +%F)
-TOMORROW=$(date -v +1d +%F)
+LAST_WEEK=$([ "$OSTYPE" = linux-gnu ] && date --date="7 days ago" +"%Y"."%m"."%d" || date -v-7d +"%Y"."%m"."%d")
 FUNCTION_NAME="$1"
 
 DURATION=$(aws --region us-east-2 cloudwatch get-metric-statistics \
 --metric-name Duration \
---start-time ${TODAY}T00:00:00Z \
---end-time ${TOMORROW}T00:00:00Z \
+--start-time ${LAST_WEEK}T00:00:00Z \
+--end-time ${TODAY}T00:00:00Z \
 --period 3600 \
 --namespace AWS/Lambda \
 --statistics Average \
