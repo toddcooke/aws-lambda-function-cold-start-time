@@ -90,6 +90,11 @@
     "Unit": "Milliseconds"
   },
   {
+    "Timestamp": "2021-10-14T00:00:00+00:00",
+    "Average": 146.78,
+    "Unit": "Milliseconds"
+  },
+  {
     "Timestamp": "2021-10-13T10:00:00+00:00",
     "Average": 146.78694444444443,
     "Unit": "Milliseconds"

@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "Timestamp": "2021-10-14T00:00:00+00:00",
+    "Average": 3.42,
+    "Unit": "Milliseconds"
+  }
+]
