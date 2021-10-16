@@ -1,5 +1,10 @@
 [
   {
+    "Timestamp": "2021-10-15T00:00:00+00:00",
+    "Average": 3.8366666666666664,
+    "Unit": "Milliseconds"
+  },
+  {
     "Timestamp": "2021-10-14T00:00:00+00:00",
     "Average": 3.42,
     "Unit": "Milliseconds"
