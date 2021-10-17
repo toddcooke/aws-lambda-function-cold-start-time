@@ -1,82 +1,69 @@
-<html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages': ['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawCharts);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        async function drawCharts() {
+
+            // TODO: get the one json file instead of two and
+
+            const python_duration_json = await fetch('https://raw.githubusercontent.com/toddcooke/aws-lambda-function-cold-start-time/main/data/aws-lambda-function-cold-start-time-dev-python_handler.json')
+                .then(response => response.json())
+            const node_duration_json = await fetch('https://raw.githubusercontent.com/toddcooke/aws-lambda-function-cold-start-time/main/data/aws-lambda-function-cold-start-time-dev-node_handler.json')
+                .then(response => response.json())
+
+            const python_duration = python_duration_json.map(it => {
+                return [it.Timestamp.toString(), Number(it.Average)]
+            })
+            const nodejs_duration = node_duration_json.map(it => {
+                return [it.Timestamp.toString(), Number(it.Average)]
+            })
+
+            const dates = python_duration_json.map(it => {
+                return
+            })
+
+            python_duration.unshift(['Year', 'Python', 'NodeJS'])
+
+            const durations = [].concat(python_duration).concat(nodejs_duration)
+
+            console.log(durations)
+
+            var data = google.visualization.arrayToDataTable(
+                durations
+            );
+
+            // Set chart options
+            var options = {
+                'title': 'AWS Lambda cold start times',
+                'width': 400,
+                'height': 300,
+                colors: ['#e0440e', 'blue']
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+    </script>
+
+</head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"
-        integrity="sha512-b3xr4frvDIeyC3gqR1/iOi6T+m3pLlQyXNuvn5FiRrrKiMUJK3du2QqZbCywH6JxS5EOfW0DY0M6WwdXFbCBLQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-<canvas id="myChart"></canvas>
-<script>
-    import {en} from 'date-fns/locale';
 
-    async function script() {
+<div id="chart_div"></div>
 
-        const python_duration = await fetch('https://raw.githubusercontent.com/toddcooke/aws-lambda-function-cold-start-time/main/data/aws-lambda-function-cold-start-time-dev-python_handler.json')
-            .then(response => response.json())
-        const node_duration = await fetch('https://raw.githubusercontent.com/toddcooke/aws-lambda-function-cold-start-time/main/data/aws-lambda-function-cold-start-time-dev-node_handler.json')
-            .then(response => response.json())
-        // const ruby_duration = await fetch('/data/aws-lambda-function-cold-start-time-dev-ruby_handler.json')
-        //     .then(response => response.json())
-        const ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(document.getElementById("myChart"), {
-            type: 'scatter',
-            data: {
-                datasets: [
-                    {
-                        data: python_duration.map(it => {
-                            return {
-                                x: it.Timestamp,
-                                y: it.Average
-                            }
-                        }),
-                        label: "Python",
-                        borderColor: "#3e95cd",
-                        fill: false
-                    },
-                    {
-                        data: node_duration.map(it => {
-                            return {
-                                x: it.Timestamp,
-                                y: it.Average
-                            }
-                        }),
-                        label: "NodeJS`",
-                        borderColor: "#3cba9f",
-                        fill: false
-                    },
-                ]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'AWS Lambda function cold start time'
-                },
-                scales: {
-                    adapters: {
-                        date: {
-                            locale: en
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: "Time (Milliseconds)"
-                        }
-                    },
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    script()
-</script>
 </body>
-
-
 </html>
 
